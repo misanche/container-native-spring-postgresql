@@ -2,9 +2,17 @@
 
 You first may need to `sudo yum install unzip` if you don't have unzip installed.
 
+# Linux
 ```
-curl -o /tmp/vault_0.9.1_linux_amd64.zip https://releases.hashicorp.com/vault/0.9.1/vault_0.9.1_linux_amd64.zip?_ga=2.50315055.849435059.1516247977-364835320.1511883273 
-unzip /tmp/vault_0.9.1_linux_amd64.zip -d /tmp
+curl -o /tmp/vault_1.1.1_linux_amd64.zip https://releases.hashicorp.com/vault/1.1.1/vault_1.1.1_linux_amd64.zip
+unzip /tmp/vault_1.1.1_linux_amd64.zip -d /tmp
+sudo cp /tmp/vault /usr/bin/
+```
+
+# Mac
+```
+curl -o /tmp/vault_1.1.1_darwin_amd64.zip https://releases.hashicorp.com/vault/1.1.1/vault_1.1.1_darwin_amd64.zip
+unzip /tmp/vault_1.1.1_darwin_amd64.zip -d /tmp
 sudo cp /tmp/vault /usr/bin/
 ```
 
@@ -19,7 +27,7 @@ oc create route reencrypt vault --port=8200 --service=vault
 # Initialize Vault
 ```
 export VAULT_ADDR=https://`oc get route | grep -m1 vault | awk '{print $2}'`
-vault init -tls-skip-verify -key-shares=1 -key-threshold=1
+vault operator init -tls-skip-verify -key-shares=1 -key-threshold=1
 ```
 Save the generated key and token. 
 
@@ -43,5 +51,5 @@ For example:
 
 
 ```
-vault unseal -tls-skip-verify $KEYS
+vault operator unseal -tls-skip-verify $KEYS
 ```
